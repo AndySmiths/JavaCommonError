@@ -1,4 +1,4 @@
-package com.thread;
+package com.concurrent.thread;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
@@ -72,7 +72,7 @@ public class CurrentHashMapDemo {
 
 
     //循环次数
-    private static int LOOP_COUNT = 100000;
+    private static int LOOP_COUNT = 1000000;
     //元素数量
 //    private static int ITEM_COUNT = 10;
     // 线程数量
