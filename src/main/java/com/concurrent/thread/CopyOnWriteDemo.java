@@ -27,7 +27,7 @@ public class CopyOnWriteDemo {
 
         //循环100000次并发往CopyOnWriteArrayList写入随机元素
         IntStream.rangeClosed(1, loopCount)
-                .parallel().forEach(__ -> copyOnWriteArrayList.add(ThreadLocalRandom.current().nextInt(loopCount)));
+                .parallel().forEach((__) -> copyOnWriteArrayList.add(ThreadLocalRandom.current().nextInt(loopCount)));
         stopWatch.stop();
         stopWatch.start("Write:synchronizedList");
 

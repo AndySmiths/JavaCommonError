@@ -1,4 +1,4 @@
-package com.com.java8;
+package com.java8;
 
 import java.util.Random;
 import java.util.stream.IntStream;
@@ -7,7 +7,7 @@ public class StreamDemo {
     public static void main(String[] args) {
 
 //        testRandom();
-        ofTest();
+//        ofTest();
     }
 
     public static void testRandom(){
