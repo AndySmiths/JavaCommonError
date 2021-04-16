@@ -1,4 +1,4 @@
-package com.com.java8;
+package com.java8;
 
 import com.demobean.Student;
 
