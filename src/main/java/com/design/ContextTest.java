@@ -28,12 +28,7 @@ public class ContextTest {
     }
 
     public final static class ActionContext{
-        private static final ThreadLocal<Context> threadLocal = new ThreadLocal<Context>(){
-            @Override
-            protected Context initialValue() {
-                return new Context();
-            }
-        };
+        private static final ThreadLocal<Context> threadLocal = ThreadLocal.withInitial(() -> new Context());
 
         public static ActionContext getActionContext() {
             return ContextHolder.actionContext;
