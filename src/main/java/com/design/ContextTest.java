@@ -28,12 +28,7 @@ public class ContextTest {
     }
 
     public final static class ActionContext{
-        private static final ThreadLocal<Context> threadLocal = new ThreadLocal<Context>(){
-            @Override
-            protected Context initialValue() {
-                return new Context();
-            }
-        };
+        private static final ThreadLocal<Context> threadLocal = ThreadLocal.withInitial(() -> new Context());
 
         public static ActionContext getActionContext() {
             return ContextHolder.actionContext;
@@ -56,6 +51,7 @@ public class ContextTest {
                 Thread.sleep(1000L);
                 String name = Thread.currentThread().getName();
 //                context.setName(name);
+                System.out.println("设置线程name:" + name);
                 ActionContext.getActionContext().getContext().setName(name);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -70,6 +66,7 @@ public class ContextTest {
                 Thread.sleep(1000L);
                 long id = Thread.currentThread().getId();
 //                context.setId(id);
+                System.out.println("设置线程id：" + id);
                 ActionContext.getActionContext().getContext().setId(id);
             } catch (InterruptedException e) {
                 e.printStackTrace();

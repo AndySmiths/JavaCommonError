@@ -6,12 +6,31 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static java.util.stream.Collectors.toList;
+
 public class StreamDemo {
     public static void main(String[] args) {
 
 //        testRandom();
 //        ofTest();
-        howStreamIsWork();
+//        howStreamIsWork();
+        returnHelloWorld();
+    }
+
+    //给定单词列表["Hello","World"]，你想要返回列表["H","e","l", "o","W","r","d"]
+
+    public static void returnHelloWorld(){
+        String[] strings = {"Hello", "World"};
+
+        List<String[]> collect = Arrays.asList(strings).stream()
+                .map(word -> word.split(""))
+                .distinct()
+                .collect(toList());
+        collect.forEach( s -> System.out.println(Arrays.toString(s)));
+//        for (String[] s : collect) {
+//            System.out.println(s.length + Arrays.toString(s));
+//        }
+
     }
 
 
