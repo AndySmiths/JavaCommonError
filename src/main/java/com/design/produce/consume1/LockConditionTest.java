@@ -1,4 +1,4 @@
-package com.design.productconsume;
+package com.design.produce.consume1;
 
 import java.util.LinkedList;
 import java.util.concurrent.locks.Condition;
