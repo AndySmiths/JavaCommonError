@@ -1,6 +1,7 @@
 package com.concurrent.thread;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,8 +46,8 @@ public class CurrentHashMapDemo {
      * @return
      * @throws InterruptedException
      */
-    @GetMapping("wrong1")
-    public String wrong() throws InterruptedException {
+    @Test
+    public String wrong() {
         ConcurrentHashMap<String, Long> concurrentHashMap = getData(ITEM_COUNT - 100);
         //初始900个元素
         log.info("init size:{}", concurrentHashMap.size());
@@ -64,7 +65,11 @@ public class CurrentHashMapDemo {
         }));
         //等待所有任务完成
         forkJoinPool.shutdown();
-        forkJoinPool.awaitTermination(1, TimeUnit.HOURS);
+        try {
+            forkJoinPool.awaitTermination(1, TimeUnit.HOURS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //最后元素个数会是1000吗？
         log.info("finish size:{}", concurrentHashMap.size());
         return "OK";

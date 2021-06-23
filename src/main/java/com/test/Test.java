@@ -4,6 +4,8 @@ import java.util.concurrent.*;
 
 public class Test {
     public static void main(String[] args) throws InterruptedException {
+
+
         BlockingDeque<Runnable> blockingDeque = new LinkedBlockingDeque<>();
         //SynchronousQueue<Object> objects = new SynchronousQueue<>(true);
         //SynchronousQueue<Object> objects = new SynchronousQueue<>();

@@ -1,34 +1,67 @@
 package com.java8;
 
 import com.demobean.Student;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 public class StreamDemo {
-    public static void main(String[] args) {
 
-//        testRandom();
-//        ofTest();
-//        howStreamIsWork();
-        returnHelloWorld();
+
+    @Test
+    public void streamIterate(){
+        // iterate的用法
+        String[] arr = {"aaa", "bbb", "ccc", "fewe", "455", "21dfverw", "2", "fdddddd","aaa", "bbb", "ccc", "fewe", "455", "21dfverw", "2", "fdddddd"};
+        List<String> stringList = Arrays.asList(arr);
+
+        Stream<Integer> limit = Stream.iterate(0, n -> n * 2).limit(2);
+        limit.forEach(integer -> log.info(String.valueOf(integer)));
+
     }
+
+    @Test
+    public void mapTest(){
+        // 对给定单词列表 ["Hello","World"],你想返回列表["H","e","l","o","W","r","d"]
+        String[] words = new String[]{"Hello","World"};
+        List<String[]> a = Arrays.stream(words)
+                .map(word -> word.split(""))
+                .distinct()
+                .collect(toList());
+        a.forEach(System.out::print);
+        // .map(word -> word.split("")) 返回的是 Stream(String[]) 而不是 Stream(String)
+
+        log.info("\n--------------");
+        // 正确的方式， 再通过flatMap 把两个 Stream(String[]) 转换为 一个 Stream(String) 流
+        List<String> a1 = Arrays.stream(words)
+                .map(word -> word.split(""))
+                .flatMap(Arrays::stream)
+                .distinct()
+                .collect(toList());
+        a1.forEach(System.out::print);
+
+    }
+
 
     //给定单词列表["Hello","World"]，你想要返回列表["H","e","l", "o","W","r","d"]
 
-    public static void returnHelloWorld(){
+    @Test
+    public void returnHelloWorld(){
         String[] strings = {"Hello", "World"};
 
         List<String[]> collect = Arrays.asList(strings).stream()
                 .map(word -> word.split(""))
                 .distinct()
                 .collect(toList());
-        collect.forEach( s -> System.out.println(Arrays.toString(s)));
+        collect.forEach( s -> log.info(Arrays.toString(s)));
 //        for (String[] s : collect) {
-//            System.out.println(s.length + Arrays.toString(s));
+//            log.info(s.length + Arrays.toString(s));
 //        }
 
     }
@@ -44,10 +77,11 @@ public class StreamDemo {
 //                .mapToInt(String::length)
                 .filter(s -> s.length() > 6)
                 .findFirst();
-        System.out.println("howStreamIsWork:" + test.isPresent());
+        log.info("howStreamIsWork:" + test.isPresent());
     }
 
-    public static void testRandom() {
+    @Test
+    public void testRandom() {
         IntStream stream = new Random().ints(10, 20, 21);
         IntStream stream1 = new Random().ints();
         stream.forEach(i -> System.out.print(i + " "));
@@ -70,7 +104,6 @@ public class StreamDemo {
                 }
             }
         }
-
     }
 
     public void calcStudentHeightStream() {
@@ -105,8 +138,8 @@ public class StreamDemo {
                 { "25 fibs", IntStream.generate(new Fibs()).limit(25) }*/
         };
 
-        System.out.println(test.toString());
-        //System.out.println(forEachTest(IntStream.range(0, 255)));
+        log.info(test.toString());
+        //log.info(forEachTest(IntStream.range(0, 255)));
     }
 
 
