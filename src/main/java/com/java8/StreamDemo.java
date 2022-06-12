@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -13,6 +14,78 @@ import static java.util.stream.Collectors.toList;
 
 @Slf4j
 public class StreamDemo {
+
+
+    @Test
+    public void parallelStream(){
+        List<Integer> collect = IntStream.generate(() -> 1).limit(100000).boxed().collect(toList());
+        List<Integer> list = new ArrayList<>();
+        log.info("集合大小：{}", collect.size());
+        collect.parallelStream().forEach(list::add);
+        log.info("list 的add操作，非线程安全， 结果:{}", list.size());
+
+
+        log.info("普通foreach循环操作");
+        List<Integer> normalList = new ArrayList<>();
+        collect.forEach( e -> normalList.add(e + 1));
+        log.info("普通foreach循环结果：{}", normalList.size());
+
+        log.info("线程安全集合操作");
+        List<Integer> copyOnWriteArrayList = new CopyOnWriteArrayList();
+        collect.parallelStream().forEach( e -> {
+            copyOnWriteArrayList.add(e);
+            if (copyOnWriteArrayList.size() % 1000 == 0) {
+                //log.info("当前结果{}， size:{}", e, copyOnWriteArrayList.size());
+            }
+        });
+        log.info("线程安全添加：{}", copyOnWriteArrayList.size());
+
+        log.info("使用包装类 resultList = Collections.synchronizedList(Arrays.asList());");
+        List<Integer> streamList = Collections.synchronizedList(new ArrayList<>());
+        collect.parallelStream().forEach(streamList::add);
+        log.info("包装类结果：{}", streamList.size());
+
+    }
+
+
+    @Test
+    public void parallelStreamTest(){
+        Map<String, Integer> resultUserMap = new LinkedHashMap();
+        List<String> list = Arrays.asList("1111fewfafew", "2222fewfae", "3333dsaj", "4444ioaf", "5555eioawn",
+                "6666jojora", "7777jnaeng", "8888faz");
+        list.parallelStream().filter(e -> {
+            if (e.contains("a")) {
+                resultUserMap.put(e, 1);
+            }
+            return false;
+        }).forEach(emp -> {
+            if (emp.contains("c")) {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        System.out.println("end!");
+        log.info("  >>>> {}", resultUserMap.toString());
+
+    }
+
+
+    @Test
+    public void testFilter(){
+        IntStream.range(1, 10)
+                .filter(e -> {
+                    log.info("e%2:{}", e);
+                    if (e%2 == 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                })
+                .forEach(e -> log.info(String.valueOf(e)));
+    }
 
 
     @Test

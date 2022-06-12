@@ -6,8 +6,12 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.example</groupId>
     <artifactId>JavaCommonQuestionDemo</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>SecurityDeo</module>
+        <module>RegistryServer</module>
+    </modules>
     <name>A custom project using myfaces</name>
 
     <parent>
